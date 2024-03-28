@@ -12,9 +12,16 @@ public class Employee {
 
     private long id;
     private String name;
+    @ElementCollection(targetClass = EmployeeSkill.class)
+    @CollectionTable(name = "employee_skills", joinColumns = @JoinColumn(name = "employee_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "skill")
     private Set<EmployeeSkill> skills;
+    @ElementCollection(targetClass = DayOfWeek.class)
+    @CollectionTable(name = "days_available", joinColumns = @JoinColumn(name = "employee_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "day")
     private Set<DayOfWeek> daysAvailable;
-
     public Set<EmployeeSkill> getSkills() {
         return skills;
     }
@@ -22,7 +29,6 @@ public class Employee {
     public void setSkills(Set<EmployeeSkill> skills) {
         this.skills = skills;
     }
-
     public Set<DayOfWeek> getDaysAvailable() {
         return daysAvailable;
     }
