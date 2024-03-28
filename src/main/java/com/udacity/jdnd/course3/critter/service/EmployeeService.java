@@ -17,4 +17,8 @@ public class EmployeeService {
     public Employee saveEmployee(Employee employee) {
         return employeeDAO.save(employee);
     }
+
+    public Employee getEmployee(long employeeId) {
+        return employeeDAO.getOne(employeeId);
+    }
 }
