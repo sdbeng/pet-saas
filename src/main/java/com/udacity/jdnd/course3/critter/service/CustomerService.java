@@ -4,8 +4,11 @@ import com.udacity.jdnd.course3.critter.repositories.CustomerDAO;
 import com.udacity.jdnd.course3.critter.repositories.CustomerRepository;
 import com.udacity.jdnd.course3.critter.user.Customer;
 import com.udacity.jdnd.course3.critter.user.CustomerDTO;
+import com.udacity.jdnd.course3.critter.user.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -19,4 +22,10 @@ public class CustomerService {
     public Customer saveCustomer(Customer customer) {
         return customerDAO.save(customer);
     }
+
+    public List<Customer> getAllCustomers() {
+        return customerDAO.findAll();
+    }
+
+
 }

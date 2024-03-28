@@ -12,7 +12,9 @@ public class Customer {
     private String name;
     private String phoneNumber;
     private String notes;
-
+    @ElementCollection
+    @CollectionTable(name = "pet_ids", joinColumns = @JoinColumn(name = "customer_id"))
+    @Column(name = "pet_id")
     private List<Long> petIds;
 
     public Customer() {
