@@ -9,7 +9,6 @@ import java.util.Set;
 public class Employee {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-
     private long id;
     private String name;
     @ElementCollection(targetClass = EmployeeSkill.class)
