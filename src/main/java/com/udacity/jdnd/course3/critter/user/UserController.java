@@ -1,7 +1,9 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.service.CustomerService;
 import com.udacity.jdnd.course3.critter.service.EmployeeService;
+import com.udacity.jdnd.course3.critter.service.PetService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,14 +26,18 @@ public class UserController {
     private CustomerService customerService;
     private EmployeeService employeeService;
 
-    public UserController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
+    private PetService petService;
 
-    @Autowired
-    public void setEmployeeService(EmployeeService employeeService) {
+    public UserController(CustomerService customerService, PetService petService, EmployeeService employeeService) {
+        this.petService = petService;
+        this.customerService = customerService;
         this.employeeService = employeeService;
     }
+
+//    @Autowired
+//    public void setEmployeeService(EmployeeService employeeService) {
+//        this.employeeService = employeeService;
+//    }
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO) {
@@ -57,6 +63,14 @@ public class UserController {
     public List<CustomerDTO> getAllCustomers(){
         List<Customer> customers = customerService.getAllCustomers();
         List<CustomerDTO> customerDTOS = convertCustomerListToCustomerDTOList(customers);
+        //before returning, make sure to populate the petIds field of each CustomerDTO
+        for (CustomerDTO customerDTO : customerDTOS) {
+            List<Long> petIds = new ArrayList<>();
+            for (Pet pet : customerDTO.getPets()) {
+                petIds.add(pet.getId());
+            }
+            customerDTO.setPetIds(petIds);
+        }
         return customerDTOS;
     }
 
@@ -68,6 +82,15 @@ public class UserController {
         }
         return customerDTOS;
     }
+
+    //asign Pet to customer - will refactor the savePet method in PetCtrl instead
+//    @PutMapping("/customer/pets/{petId}")
+//    public CustomerDTO addPetToCustomer(@PathVariable long petId, @RequestBody CustomerDTO customerDTO){
+//        Pet petAssigned = petService.getPet(petId);
+//        System.out.println("petAssigned: " + petAssigned);
+//        return convertCustomerToCustomerDTO(customerService.addPetToCustomer(petAssigned, customerDTO.getId()));
+//
+//    }
 
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){

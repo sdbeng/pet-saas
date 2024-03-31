@@ -1,5 +1,8 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import com.udacity.jdnd.course3.critter.user.Customer;
+import org.hibernate.annotations.Nationalized;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -8,30 +11,35 @@ import java.time.LocalDate;
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private PetType type;
+    @Nationalized
     private String name;
-    private long ownerId;
+
+    @ManyToOne(targetEntity = Customer.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
+    private Customer owner;
     private LocalDate birthDate;
     private String notes;
 
+
     public Pet(){}
 
-    public Pet(long id, PetType type, String name, long ownerId, LocalDate birthDate, String notes) {
+    public Pet(Long id, PetType type, String name, Customer owner, LocalDate birthDate, String notes) {
         this.id = id;
         this.type = type;
         this.name = name;
-        this.ownerId = ownerId;
+        this.owner = owner;
         this.birthDate = birthDate;
         this.notes = notes;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -51,12 +59,12 @@ public class Pet {
         this.name = name;
     }
 
-    public long getOwnerId() {
-        return ownerId;
+    public Customer getOwner() {
+        return owner;
     }
 
-    public void setOwnerId(long ownerId) {
-        this.ownerId = ownerId;
+    public void setOwner(Customer owner) {
+        this.owner = owner;
     }
 
     public LocalDate getBirthDate() {
@@ -73,5 +81,14 @@ public class Pet {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.owner = customer;
+    }
+
+    @Override
+    public String toString() {
+        return "Pet [id=" + id + ", owner=" + owner + "]";
     }
 }
