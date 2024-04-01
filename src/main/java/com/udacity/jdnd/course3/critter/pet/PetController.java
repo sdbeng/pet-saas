@@ -30,13 +30,8 @@ public class PetController {
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
-        Pet pet = getPetFromDTO(petDTO);
-        pet = petService.savePet(pet);
-        petDTO.setId(pet.getId());
-        return petDTO;
-
-//        Pet savedPet = petService.savePet(pet);
-//        return convertPetToPetDTO(savedPet);
+        Pet thePet = petService.savePet(convertPetDTOToPet(petDTO));
+        return convertPetToPetDTO(thePet);
     }
 
     private Pet getPetFromDTO(PetDTO petDTO) {
@@ -49,6 +44,7 @@ public class PetController {
         if(Objects.nonNull(petDTO.getOwnerId())) {
             Optional<Customer> customerOptional = customerService.findById(petDTO.getOwnerId());
             Customer customer = customerOptional.orElse(null);
+            System.out.println("***** getPetFromDTO customer: " + customer);
             if (customer != null) {
                 pet.setOwner(customer);
                 customer.getPets().add(pet);
@@ -60,12 +56,16 @@ public class PetController {
     private PetDTO convertPetToPetDTO(Pet savedPet) {
         PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(savedPet, petDTO);
+        petDTO.setOwnerId(savedPet.getOwner().getId());
         return petDTO;
     }
 
     private Pet convertPetDTOToPet(PetDTO petDTO) {
         Pet pet = new Pet();
         BeanUtils.copyProperties(petDTO, pet);
+        Customer customer = new Customer();
+        customer.setId(petDTO.getOwnerId());
+        pet.setCustomer(customer);
         return pet;
     }
 
@@ -77,23 +77,20 @@ public class PetController {
 
     @GetMapping
     public List<PetDTO> getPets(){
-        throw new UnsupportedOperationException();
+        List<PetDTO> petDTOList = new ArrayList<>();
+        List<Pet> petsList = petService.getPets();
+        petsList.forEach(pet -> petDTOList.add(convertPetToPetDTO(pet)));
+        return petDTOList;
+
     }
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        System.out.println("***** ownerId: " + ownerId);
+        List<PetDTO> petDTOs = new ArrayList<>();
         List<Pet> pets = petService.getPetsByOwner(ownerId);
-        System.out.println("***** pets: " + pets);
-        return convertPetListToPetDTOList(pets);
+        pets.forEach(pet -> petDTOs.add(convertPetToPetDTO(pet)));
+        System.out.println("***** petDTOs: " + petDTOs);
+        return petDTOs;
     }
 
-    private List<PetDTO> convertPetListToPetDTOList(List<Pet> pets) {
-        List<PetDTO> petDTOList = new ArrayList<>();
-        for (Pet pet : pets) {
-            PetDTO petDTO = convertPetToPetDTO(pet);
-            petDTOList.add(petDTO);
-        }
-        return petDTOList;
-    }
 }

@@ -96,7 +96,7 @@ public class CritterFunctionalTest {
         petDTO.setOwnerId(newCustomer.getId());
         PetDTO newPet = petController.savePet(petDTO);
         petDTO.setType(PetType.DOG);
-        petDTO.setName("DogName");
+        petDTO.setName("Kai");
         PetDTO newPet2 = petController.savePet(petDTO);
 
         List<PetDTO> pets = petController.getPetsByOwner(newCustomer.getId());

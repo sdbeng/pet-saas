@@ -14,9 +14,10 @@ public class CustomerDTO {
     private String name;
     private String phoneNumber;
     private String notes;
-    private List<Long> petIds = new ArrayList<>();
+    private List<Long> petIds;
 
     public long getId() {
+        System.out.println("CustomerDTO.getId called===" + id);
         return id;
     }
 
@@ -49,6 +50,7 @@ public class CustomerDTO {
     }
 
     public List<Long> getPetIds() {
+        System.out.println("CustomerDTO.getPetIds called===" + petIds);
         return petIds;
     }
 

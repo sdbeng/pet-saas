@@ -49,45 +49,45 @@ public class UserController {
     private Customer convertCustomerDTOToCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO, customer);
+
+        if(customerDTO.getPetIds() != null) {
+            List<Pet> pets = new ArrayList<>();
+            customerDTO.getPetIds().forEach(petId -> {
+                Pet pet = new Pet();
+                pet.setId(petId);
+                pets.add(pet);});
+            customer.setPets(pets);
+            }
         return customer;
     }
 
     //convert Customer object to CustomerDTO object
-    private CustomerDTO convertCustomerToCustomerDTO(Customer customer){
+    private static CustomerDTO convertCustomerToCustomerDTO(Customer customer) {
         CustomerDTO customerDTO = new CustomerDTO();
         BeanUtils.copyProperties(customer, customerDTO);
+
+        if (customer.getPets() != null) {
+            List<Long> petIds = new ArrayList<>();
+            customer.getPets().forEach(pet -> petIds.add(pet.getId()));
+            customerDTO.setPetIds(petIds);
+        }
         return customerDTO;
     }
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
         List<Customer> customers = customerService.getAllCustomers();
-        List<CustomerDTO> customerDTOS = convertCustomerListToCustomerDTOList(customers);
-        //before returning, make sure to populate the petIds field of each CustomerDTO
-        for (CustomerDTO customerDTO : customerDTOS) {
-            List<Long> petIds = new ArrayList<>();
-            for (Pet pet : customerDTO.getPets()) {
-                petIds.add(pet.getId());
-            }
-            customerDTO.setPetIds(petIds);
-        }
-        return customerDTOS;
-    }
-
-    private List<CustomerDTO> convertCustomerListToCustomerDTOList(List<Customer> customers) {
         List<CustomerDTO> customerDTOS = new ArrayList<>();
-        for (Customer customer : customers) {
-            CustomerDTO customerDTO = convertCustomerToCustomerDTO(customer);
-            customerDTOS.add(customerDTO);
-        }
+        //before returning, make sure to populate the petIds field of each CustomerDTO
+        customers.forEach(customer -> customerDTOS.add(convertCustomerToCustomerDTO(customer)));
         return customerDTOS;
     }
 
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
         Pet pet = petService.getPet(petId);
-        Customer customer = pet.getOwner();//get the owner of the pet
-        return convertCustomerToCustomerDTO(customer);
+        CustomerDTO customerDTO = convertCustomerToCustomerDTO(customerService.getCustomer(pet.getCustomer().getId()));
+        return customerDTO;
     }
 
     @PostMapping("/employee")
