@@ -1,6 +1,9 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.udacity.jdnd.course3.critter.pet.Pet;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,22 +15,40 @@ public class Customer {
     private String name;
     private String phoneNumber;
     private String notes;
-    @ElementCollection
-    @CollectionTable(name = "pet_ids", joinColumns = @JoinColumn(name = "customer_id"))
-    @Column(name = "pet_id")
-    private List<Long> petIds;
+
+    @OneToMany(mappedBy = "owner", targetEntity = Pet.class, cascade = CascadeType.ALL, orphanRemoval = true)//mappedBy is the field in the other class that maps to this class
+    private List<Pet> pets = new ArrayList<>();//foreign key to pet table, owner_id
 
     public Customer() {
     }
 
-    public Customer(Long id, String name, String phoneNumber, String notes, List<Long> petIds) {
+    public Customer(Long id, String name, String phoneNumber, String notes, List<Pet> pets) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.notes = notes;
-        this.petIds = petIds;
+        this.pets = pets;
     }
 
+    //assign bidirectional relationship with Pet class
+    public void addPet(Pet pet){
+        pets.add(pet);
+        pet.setOwner(this);
+    }
+
+    public String toString(){
+        return "Customer [" +
+                "id=" + id +
+                ", name='" + name + "owns " + pets.size() + " pets" + "]";
+    }
+
+    public List<Pet> getPets() {
+        return pets;
+    }
+
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
+    }
     public Long getId() {
         return id;
     }
@@ -60,11 +81,5 @@ public class Customer {
         this.notes = notes;
     }
 
-    public void setPetIds(List<Long> petIds) {
-        this.petIds = petIds;
-    }
 
-    public List<Long> getPetIds() {
-        return petIds;
-    }
 }

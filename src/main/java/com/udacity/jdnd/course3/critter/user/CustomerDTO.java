@@ -1,5 +1,8 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.udacity.jdnd.course3.critter.pet.Pet;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +14,7 @@ public class CustomerDTO {
     private String name;
     private String phoneNumber;
     private String notes;
-    private List<Long> petIds;
+    private List<Long> petIds = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -50,6 +53,18 @@ public class CustomerDTO {
     }
 
     public void setPetIds(List<Long> petIds) {
-        this.petIds = petIds;
+        if(petIds != null){
+            this.petIds = petIds;
+        }else{
+            this.petIds = new ArrayList<>();
+        }
+    }
+
+    public Pet[] getPets() {
+        return petIds.stream().map(id -> {
+            Pet pet = new Pet();
+            pet.setId(id);
+            return pet;
+        }).toArray(Pet[]::new);
     }
 }

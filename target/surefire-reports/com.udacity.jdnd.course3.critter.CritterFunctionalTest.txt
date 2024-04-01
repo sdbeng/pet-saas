@@ -1,0 +1,33 @@
+-------------------------------------------------------------------------------
+Test set: com.udacity.jdnd.course3.critter.CritterFunctionalTest
+-------------------------------------------------------------------------------
+Tests run: 9, Failures: 2, Errors: 5, Skipped: 0, Time elapsed: 3.904 s <<< FAILURE! - in com.udacity.jdnd.course3.critter.CritterFunctionalTest
+testFindOwnerByPet  Time elapsed: 0.142 s  <<< ERROR!
+java.lang.UnsupportedOperationException
+	at com.udacity.jdnd.course3.critter.CritterFunctionalTest.testFindOwnerByPet(CritterFunctionalTest.java:117)
+
+testFindEmployeesByServiceAndTime  Time elapsed: 0.026 s  <<< ERROR!
+java.lang.UnsupportedOperationException
+	at com.udacity.jdnd.course3.critter.CritterFunctionalTest.testFindEmployeesByServiceAndTime(CritterFunctionalTest.java:158)
+
+testAddPetsToCustomer  Time elapsed: 0.008 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <0> but was: <2>
+	at com.udacity.jdnd.course3.critter.CritterFunctionalTest.testAddPetsToCustomer(CritterFunctionalTest.java:77)
+
+testSchedulePetsForServiceWithEmployee  Time elapsed: 0.01 s  <<< ERROR!
+java.lang.UnsupportedOperationException
+	at com.udacity.jdnd.course3.critter.CritterFunctionalTest.testSchedulePetsForServiceWithEmployee(CritterFunctionalTest.java:187)
+
+testFindPetsByOwner  Time elapsed: 0.019 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <0> but was: <2>
+	at com.udacity.jdnd.course3.critter.CritterFunctionalTest.testFindPetsByOwner(CritterFunctionalTest.java:103)
+
+testChangeEmployeeAvailability  Time elapsed: 0.003 s  <<< ERROR!
+java.lang.UnsupportedOperationException
+	at com.udacity.jdnd.course3.critter.CritterFunctionalTest.testChangeEmployeeAvailability(CritterFunctionalTest.java:129)
+
+testFindScheduleByEntities  Time elapsed: 0.009 s  <<< ERROR!
+java.lang.UnsupportedOperationException
+	at com.udacity.jdnd.course3.critter.CritterFunctionalTest.populateSchedule(CritterFunctionalTest.java:295)
+	at com.udacity.jdnd.course3.critter.CritterFunctionalTest.testFindScheduleByEntities(CritterFunctionalTest.java:198)
+

@@ -68,23 +68,23 @@ public class CritterFunctionalTest {
         CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
 
         PetDTO petDTO = createPetDTO();
-        petDTO.setOwnerId(newCustomer.getId());
-        PetDTO newPet = petController.savePet(petDTO);
+        petDTO.setOwnerId(newCustomer.getId());//sets the owner id to the new customer id so that the pet is associated with the customer
+        PetDTO newPet = petController.savePet(petDTO);//saves the pet to the database
 
         //make sure pet contains customer id
-        PetDTO retrievedPet = petController.getPet(newPet.getId());
-        Assertions.assertEquals(retrievedPet.getId(), newPet.getId());
-        Assertions.assertEquals(retrievedPet.getOwnerId(), newCustomer.getId());
+        PetDTO retrievedPet = petController.getPet(newPet.getId());//retrieves the pet from the database
+        Assertions.assertEquals(retrievedPet.getId(), newPet.getId());//checks that the pet id is the same as the retrieved pet id
+        Assertions.assertEquals(retrievedPet.getOwnerId(), newCustomer.getId());//checks that new customer id is the same as the retrieved pet owner id
 
         //make sure you can retrieve pets by owner
         List<PetDTO> pets = petController.getPetsByOwner(newCustomer.getId());
-        Assertions.assertEquals(newPet.getId(), pets.get(0).getId());
-        Assertions.assertEquals(newPet.getName(), pets.get(0).getName());
+        Assertions.assertEquals(newPet.getId(), pets.get(0).getId());//checks that the new pet id is the same as the pet id in the list of pets
+        Assertions.assertEquals(newPet.getName(), pets.get(0).getName());//checks that the new pet name is the same as the pet name in the list of pets
 
         //check to make sure customer now also contains pet
-        CustomerDTO retrievedCustomer = userController.getAllCustomers().get(0);
-        Assertions.assertTrue(retrievedCustomer.getPetIds() != null && retrievedCustomer.getPetIds().size() > 0);
-        Assertions.assertEquals(retrievedCustomer.getPetIds().get(0), retrievedPet.getId());
+        CustomerDTO retrievedCustomer = userController.getAllCustomers().get(0);//retrieves the customer from the database
+        Assertions.assertTrue(retrievedCustomer.getPetIds() != null && retrievedCustomer.getPetIds().size() > 0);//checks that the customer has a pet id in the list of pet ids and that the list is not empty
+        Assertions.assertEquals(retrievedCustomer.getPetIds().get(0), retrievedPet.getId());//checks that the pet id in the list of pet ids is the same as the retrieved pet id
     }
 
     @Test
@@ -101,7 +101,7 @@ public class CritterFunctionalTest {
 
         List<PetDTO> pets = petController.getPetsByOwner(newCustomer.getId());
         Assertions.assertEquals(pets.size(), 2);
-        Assertions.assertEquals(pets.get(0).getOwnerId(), newCustomer.getId());
+        Assertions.assertEquals(pets.get(0).getOwnerId(), newCustomer.getId());//checks that the owner id of the first pet in the list of pets is the same as the new customer id
         Assertions.assertEquals(pets.get(0).getId(), newPet.getId());
     }
 
