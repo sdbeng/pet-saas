@@ -101,7 +101,7 @@ public class CritterFunctionalTest {
 
         List<PetDTO> pets = petController.getPetsByOwner(newCustomer.getId());
         Assertions.assertEquals(pets.size(), 2);
-        Assertions.assertEquals(pets.get(0).getOwnerId(), newCustomer.getId());
+        Assertions.assertEquals(pets.get(0).getOwnerId(), newCustomer.getId());//checks that the owner id of the first pet in the list of pets is the same as the new customer id
         Assertions.assertEquals(pets.get(0).getId(), newPet.getId());
     }
 

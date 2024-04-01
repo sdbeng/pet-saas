@@ -64,6 +64,7 @@ public class Pet {
     }
 
     public void setOwner(Customer owner) {
+
         this.owner = owner;
     }
 
@@ -83,12 +84,16 @@ public class Pet {
         this.notes = notes;
     }
 
-    public void setCustomer(Customer customer) {
-        this.owner = customer;
-    }
+//    public void setCustomer(Customer customer) {
+//        this.owner = customer;
+//    }
 
     @Override
     public String toString() {
-        return "Pet [id=" + id + ", owner=" + owner + "]";
+        return "Pet [id= " + id + ", owner= " + owner + "]";
     }
+
+//    public Customer getCustomer() {
+//        return owner;
+//    }
 }

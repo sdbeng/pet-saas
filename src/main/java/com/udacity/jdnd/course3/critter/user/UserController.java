@@ -83,18 +83,11 @@ public class UserController {
         return customerDTOS;
     }
 
-    //asign Pet to customer - will refactor the savePet method in PetCtrl instead
-//    @PutMapping("/customer/pets/{petId}")
-//    public CustomerDTO addPetToCustomer(@PathVariable long petId, @RequestBody CustomerDTO customerDTO){
-//        Pet petAssigned = petService.getPet(petId);
-//        System.out.println("petAssigned: " + petAssigned);
-//        return convertCustomerToCustomerDTO(customerService.addPetToCustomer(petAssigned, customerDTO.getId()));
-//
-//    }
-
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
-        throw new UnsupportedOperationException();
+        Pet pet = petService.getPet(petId);
+        Customer customer = pet.getOwner();//get the owner of the pet
+        return convertCustomerToCustomerDTO(customer);
     }
 
     @PostMapping("/employee")

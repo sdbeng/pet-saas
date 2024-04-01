@@ -50,7 +50,7 @@ public class PetController {
             Optional<Customer> customerOptional = customerService.findById(petDTO.getOwnerId());
             Customer customer = customerOptional.orElse(null);
             if (customer != null) {
-                pet.setCustomer(customer);
+                pet.setOwner(customer);
                 customer.getPets().add(pet);
             }
         }
