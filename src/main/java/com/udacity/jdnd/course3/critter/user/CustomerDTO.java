@@ -14,7 +14,7 @@ public class CustomerDTO {
     private String name;
     private String phoneNumber;
     private String notes;
-    private List<Long> petIds;
+    private List<Long> petIds = new ArrayList<>();
 
     public long getId() {
         System.out.println("CustomerDTO.getId called===" + id);
@@ -55,11 +55,12 @@ public class CustomerDTO {
     }
 
     public void setPetIds(List<Long> petIds) {
-        if(petIds != null){
-            this.petIds = petIds;
-        }else{
-            this.petIds = new ArrayList<>();
-        }
+        this.petIds = petIds;
+//        if(petIds != null){
+//            this.petIds = petIds;
+//        }else{
+//            this.petIds = new ArrayList<>();
+//        }
     }
 
     public Pet[] getPets() {

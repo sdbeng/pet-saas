@@ -34,33 +34,14 @@ public class PetController {
         return convertPetToPetDTO(thePet);
     }
 
-    private Pet getPetFromDTO(PetDTO petDTO) {
-        Pet pet = new Pet();
-        pet.setType(petDTO.getType());
-        pet.setName(petDTO.getName());
-        pet.setBirthDate(petDTO.getBirthDate());
-        pet.setNotes(petDTO.getNotes());
-
-        if(Objects.nonNull(petDTO.getOwnerId())) {
-            Optional<Customer> customerOptional = customerService.findById(petDTO.getOwnerId());
-            Customer customer = customerOptional.orElse(null);
-            System.out.println("***** getPetFromDTO customer: " + customer);
-            if (customer != null) {
-                pet.setOwner(customer);
-                customer.getPets().add(pet);
-            }
-        }
-        return pet;
-    }
-
     private PetDTO convertPetToPetDTO(Pet savedPet) {
         PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(savedPet, petDTO);
-        petDTO.setOwnerId(savedPet.getOwner().getId());
+        petDTO.setOwnerId(savedPet.getCustomer().getId());
         return petDTO;
     }
 
-    private Pet convertPetDTOToPet(PetDTO petDTO) {
+    private static Pet convertPetDTOToPet(PetDTO petDTO) {
         Pet pet = new Pet();
         BeanUtils.copyProperties(petDTO, pet);
         Customer customer = new Customer();

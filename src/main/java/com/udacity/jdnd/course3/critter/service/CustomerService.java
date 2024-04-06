@@ -1,20 +1,17 @@
 package com.udacity.jdnd.course3.critter.service;
 
 import com.udacity.jdnd.course3.critter.pet.Pet;
-import com.udacity.jdnd.course3.critter.repositories.CustomerDAO;
 import com.udacity.jdnd.course3.critter.repositories.CustomerRepository;
 import com.udacity.jdnd.course3.critter.user.Customer;
-import com.udacity.jdnd.course3.critter.user.CustomerDTO;
-import com.udacity.jdnd.course3.critter.user.Employee;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+//@Transactional
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
@@ -33,10 +30,14 @@ public class CustomerService {
     }
 
 
-    public Customer addPetToCustomer(Pet petAssigned, long id) {
-        Customer customer = customerRepository.getOne(id);
-        customer.addPet(petAssigned);
-        return customerRepository.save(customer);
+    public void addPetToCustomer(Pet petAssigned, Customer customer) {
+        List<Pet> petList = customer.getPets();
+        if (petList == null) {
+            petList = new ArrayList<>();
+        }
+        petList.add(petAssigned);
+        customer.setPets(petList);
+        customerRepository.save(customer);
     }
 
     public Optional<Customer> findById(long ownerId) {

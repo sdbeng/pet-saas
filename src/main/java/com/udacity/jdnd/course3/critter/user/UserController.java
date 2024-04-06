@@ -34,11 +34,6 @@ public class UserController {
         this.employeeService = employeeService;
     }
 
-//    @Autowired
-//    public void setEmployeeService(EmployeeService employeeService) {
-//        this.employeeService = employeeService;
-//    }
-
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO) {
         Customer customer = convertCustomerDTOToCustomer(customerDTO);
@@ -71,13 +66,17 @@ public class UserController {
             customer.getPets().forEach(pet -> petIds.add(pet.getId()));
             customerDTO.setPetIds(petIds);
         }
+//        else{
+//            System.out.println("Customer has no pets----------");
+//            customerDTO.setPetIds(new ArrayList<>());
+//        }
         return customerDTO;
     }
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
-        List<Customer> customers = customerService.getAllCustomers();
         List<CustomerDTO> customerDTOS = new ArrayList<>();
+        List<Customer> customers = customerService.getAllCustomers();
         //before returning, make sure to populate the petIds field of each CustomerDTO
         customers.forEach(customer -> customerDTOS.add(convertCustomerToCustomerDTO(customer)));
         return customerDTOS;
@@ -117,12 +116,22 @@ public class UserController {
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        employeeService.setAvailability(daysAvailable, employeeId);
     }
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        EmployeeRequest employeeRequest = convertEmployeeRequestDTOToEmployeeRequest(employeeDTO);
+        List<EmployeeDTO> employeeDTOS = new ArrayList<>();
+        List<Employee> employeeList = employeeService.findEmployeesForService(employeeRequest);
+        employeeList.forEach(employee -> employeeDTOS.add(convertEmployeeToEmployeeDTO(employee)));
+        return employeeDTOS;
+    }
+
+    private EmployeeRequest convertEmployeeRequestDTOToEmployeeRequest(EmployeeRequestDTO employeeDTO) {
+        EmployeeRequest employeeRequest = new EmployeeRequest();
+        BeanUtils.copyProperties(employeeDTO, employeeRequest);
+        return employeeRequest;
     }
 
 }
