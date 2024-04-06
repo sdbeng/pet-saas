@@ -68,7 +68,12 @@ public class ScheduleController {
 
     @GetMapping
     public List<ScheduleDTO> getAllSchedules() {
-        
+        List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
+        List<Schedule> schedules = scheduleService.getAllSchedules();
+        for (Schedule schedule : schedules) {
+            scheduleDTOS.add(convertScheduleToDTO(schedule));
+        }
+        return scheduleDTOS;
     }
 
     @GetMapping("/pet/{petId}")

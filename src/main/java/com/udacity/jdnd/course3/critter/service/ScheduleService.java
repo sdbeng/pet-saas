@@ -44,4 +44,8 @@ public class ScheduleService {
         return scheduleRepository.save(schedule);
 
     }
+
+    public List<Schedule> getAllSchedules() {
+        return scheduleRepository.findAll();
+    }
 }
