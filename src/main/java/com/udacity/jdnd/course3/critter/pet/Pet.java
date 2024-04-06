@@ -10,30 +10,28 @@ import java.time.LocalDate;
 @Table(name = "pet")
 public class Pet {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
+    @Enumerated
     private PetType type;
     @Nationalized
     private String name;
 
-    @ManyToOne(targetEntity = Customer.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
-    private Customer owner;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customerId")
+    private Customer customer;
     private LocalDate birthDate;
+    @Column(length = 500)
     private String notes;
 
-
-    public Pet(){}
-
-    public Pet(Long id, PetType type, String name, Customer owner, LocalDate birthDate, String notes) {
-        this.id = id;
-        this.type = type;
-        this.name = name;
-        this.owner = owner;
-        this.birthDate = birthDate;
-        this.notes = notes;
-    }
+//    public Pet(Long id, PetType type, String name, Customer customer, LocalDate birthDate, String notes) {
+//        this.id = id;
+//        this.type = type;
+//        this.name = name;
+//        this.customer = customer;
+//        this.birthDate = birthDate;
+//        this.notes = notes;
+//    }
 
     public Long getId() {
         return id;
@@ -59,15 +57,6 @@ public class Pet {
         this.name = name;
     }
 
-    public Customer getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Customer owner) {
-
-        this.owner = owner;
-    }
-
     public LocalDate getBirthDate() {
         return birthDate;
     }
@@ -84,16 +73,16 @@ public class Pet {
         this.notes = notes;
     }
 
-//    public void setCustomer(Customer customer) {
-//        this.owner = customer;
-//    }
-
     @Override
     public String toString() {
-        return "Pet [id= " + id + ", owner= " + owner + "]";
+        return "Pet [id= " + id + ", customer= " + customer + "]";
     }
 
-//    public Customer getCustomer() {
-//        return owner;
-//    }
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }

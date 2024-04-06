@@ -31,6 +31,7 @@ public class PetDTO {
     }
 
     public long getOwnerId() {
+        System.out.println("PetDTO.getOwnerId called===" + ownerId);
         return ownerId;
     }
 

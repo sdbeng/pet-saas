@@ -17,6 +17,7 @@ public class CustomerDTO {
     private List<Long> petIds = new ArrayList<>();
 
     public long getId() {
+        System.out.println("CustomerDTO.getId called===" + id);
         return id;
     }
 
@@ -49,15 +50,17 @@ public class CustomerDTO {
     }
 
     public List<Long> getPetIds() {
+        System.out.println("CustomerDTO.getPetIds called===" + petIds);
         return petIds;
     }
 
     public void setPetIds(List<Long> petIds) {
-        if(petIds != null){
-            this.petIds = petIds;
-        }else{
-            this.petIds = new ArrayList<>();
-        }
+        this.petIds = petIds;
+//        if(petIds != null){
+//            this.petIds = petIds;
+//        }else{
+//            this.petIds = new ArrayList<>();
+//        }
     }
 
     public Pet[] getPets() {

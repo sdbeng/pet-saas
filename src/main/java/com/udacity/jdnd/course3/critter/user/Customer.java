@@ -10,14 +10,14 @@ import java.util.List;
 @Table(name="customers")
 public class Customer {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long id;
     private String name;
     private String phoneNumber;
     private String notes;
 
-    @OneToMany(mappedBy = "owner", targetEntity = Pet.class, cascade = CascadeType.ALL, orphanRemoval = true)//mappedBy is the field in the other class that maps to this class
-    private List<Pet> pets = new ArrayList<>();//foreign key to pet table, owner_id
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Pet> pets = new ArrayList<>();//foreign key to pet table, customer_id
 
     public Customer() {
     }
@@ -31,10 +31,10 @@ public class Customer {
     }
 
     //assign bidirectional relationship with Pet class
-    public void addPet(Pet pet){
-        pets.add(pet);
-        pet.setOwner(this);
-    }
+//    public void addPet(Pet pet){
+//        pets.add(pet);
+//        pet.setOwner(this);
+//    }
 
     public String toString(){
         return "Customer [" +
