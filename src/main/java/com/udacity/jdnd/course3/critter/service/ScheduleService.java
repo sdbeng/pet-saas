@@ -53,4 +53,8 @@ public class ScheduleService {
         List<Schedule> scheduleList = scheduleRepository.findByEmployeeList(employeeRepository.getOne(employeeId));
         return scheduleList;
     }
+
+    public List<Schedule> getScheduleForPet(long petId) {
+        return scheduleRepository.findByPetList(petRepository.getOne(petId));
+    }
 }
