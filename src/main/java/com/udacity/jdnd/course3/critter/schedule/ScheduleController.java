@@ -68,7 +68,7 @@ public class ScheduleController {
 
     @GetMapping
     public List<ScheduleDTO> getAllSchedules() {
-        throw new UnsupportedOperationException();
+        
     }
 
     @GetMapping("/pet/{petId}")

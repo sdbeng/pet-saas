@@ -40,7 +40,7 @@ public class EmployeeService {
         List<Employee> employeeList = employeeRepository.findAll();
         List<Employee> availableEmployees = new ArrayList<>();
         for (Employee employee : employeeList) {
-            if (employee.getDaysAvailable().contains(date)) {
+            if (employee.getDaysAvailable().contains(date) && employee.getSkills().containsAll(skills)) {
                 availableEmployees.add(employee);
             }
         }
